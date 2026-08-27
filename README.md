@@ -2,30 +2,19 @@
 
 > **OBS:** Detta repo används som historisk referens för ramverksjämförelse (vecka 1) och underhålls inte aktivt.
 
-## Project setup
-```
+Enkel "me-sida" byggd med Vue 3, vue-router 4 och Vite. Hämtar data från ett API och visar den via två vyer med routing.
+
+## Kör lokalt
+
+```bash
 npm install
+npm run dev
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Öppna [http://localhost:5173](http://localhost:5173) i webbläsaren.
 
-### Compiles and minifies for production
-```
+## Bygga för produktion
+
+```bash
 npm run build
 ```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

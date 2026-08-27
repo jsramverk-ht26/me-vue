@@ -1,61 +1,32 @@
-<template>
-<main>
-    <Nav />
-    <h2>{{ $route.params.kmom }}</h2>
-    <div class="question" v-for="question in questions" :key="question.key">
-      <p><strong>{{ question.question }}</strong></p>
-      <p>{{ question.answer }}</p>
-    </div>
-</main>
-
-</template>
-
-<script>
+<script setup>
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import Nav from './Nav.vue'
 
-export default {
-  name: 'Report',
-  components: {
-    Nav,
-  },
-  data() {
-    return {
-      questions: [],
-    }
-  },
-  mounted() {
-    this.getText(this.$route.params.kmom);
-  },
-  methods: {
-    getText(kmom) {
-      let that = this;
-      that.text = "";
-      fetch("https://me-api.jsramverk.se/reports/" + kmom)
-      .then(function(response) {
-          return response.json();
-      })
-      .then(function(result) {
-          that.questions = result.data.map((question, index) => {
-            return {
-              key: index,
-              question: question.question,
-              answer: question.answer
-            };
-          });
-      });
-    }
+const route = useRoute()
+const questions = ref([])
 
-  }
+async function fetchReport(kmom) {
+  const res = await fetch(`https://me-api.jsramverk.se/reports/${kmom}`)
+  const data = await res.json()
+  questions.value = data.data
 }
+
+watch(() => route.params.kmom, (kmom) => fetchReport(kmom), { immediate: true })
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h2 {
-  text-transform: uppercase;
-}
+<template>
+  <main>
+    <Nav />
+    <h2>{{ route.params.kmom }}</h2>
+    <div class="question" v-for="(q, index) in questions" :key="index">
+      <p><strong>{{ q.question }}</strong></p>
+      <p>{{ q.answer }}</p>
+    </div>
+  </main>
+</template>
 
-.question {
-  margin-bottom: 2em;
-}
+<style scoped>
+h2 { text-transform: uppercase; }
+.question { margin-bottom: 2em; }
 </style>

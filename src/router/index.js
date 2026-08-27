@@ -1,21 +1,13 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Me from '@/components/Me'
-import Report from '@/components/Report'
+import { createRouter, createWebHistory } from 'vue-router'
+import Me from '../components/Me.vue'
+import Report from '../components/Report.vue'
 
-Vue.use(Router)
-
-export default new Router({
+const router = createRouter({
+  history: createWebHistory(),
   routes: [
-    {
-        path: '/',
-        name: 'Me',
-        component: Me
-    },
-    {
-        path: '/report/:kmom',
-        name: 'Redovisning',
-        component: Report
-    }
+    { path: '/', component: Me },
+    { path: '/report/:kmom', component: Report }
   ]
 })
+
+export default router

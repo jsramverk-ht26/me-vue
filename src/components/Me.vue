@@ -1,44 +1,20 @@
-<template>
-<main>
-    <Nav />
-    <h1>Me</h1>
-    <p>{{ text }}</p>
-</main>
-</template>
-
-<script>
+<script setup>
+import { ref, onMounted } from 'vue'
 import Nav from './Nav.vue'
 
-export default {
-  name: 'Me',
-  props: { },
-  components: {
-      Nav,
-  },
-  data() {
-    return {
-        text: ""
-    }
-  },
-  mounted() {
-    this.getMe();
-  },
-  methods: {
-    getMe() {
-      let that = this;
-      fetch("https://me-api.jsramverk.se")
-      .then(function(response) {
-          return response.json();
-      })
-      .then(function(result) {
-          that.text = result.description;
-      });
-    }
-  }
-}
+const message = ref('')
+
+onMounted(async () => {
+  const res = await fetch('https://me-api.jsramverk.se')
+  const data = await res.json()
+  message.value = data.description
+})
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>
+<template>
+  <main>
+    <Nav />
+    <h1>Me</h1>
+    <p>{{ message }}</p>
+  </main>
+</template>
